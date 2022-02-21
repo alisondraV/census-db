@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+  <persistence-unit name="CensusManager">
+
+      <class>entities.AgeEntity</class>
+      <class>entities.AgeGroupEntity</class>
+      <class>entities.CensusYearEntity</class>
+      <class>entities.GeographicAreaEntity</class>
+      <class>entities.HouseholdEntity</class>
+      <class>entities.HouseholdEarnersEntity</class>
+      <class>entities.HouseholdsByAgeRangeEntity</class>
+      <class>entities.HouseholdSizeEntity</class>
+      <class>entities.HouseholdTypeEntity</class>
+      <class>entities.TotalIncomeEntity</class>
+      <properties>
+          <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/CENSUSDB"/>
+          <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+          <property name="hibernate.connection.username" value="root"/>
+          <property name="hibernate.connection.password" value="password"/>
+      </properties>
+  </persistence-unit>
+</persistence>
