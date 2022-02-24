@@ -8,6 +8,6 @@
     <h1>Group Project 1</h1>
     <h2>Prepared by Alisa Vynohradova and Andrii Denysenko</h2>
     <br/>
-    <a href="geographicAreas.jsp">Geographic Areas</a>
+    <a href="${pageContext.request.contextPath}/geographic-areas-servlet">Geographic Areas</a>
     </body>
 </html>

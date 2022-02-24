@@ -6,9 +6,8 @@
     <title>Geographic Area Classification List</title>
 </head>
 <body>
-    <jsp:useBean id="geoAreas" class="servlets.GeographicAreasServlet"/>
     <h2>Geographic Area Classification List</h2>
-    <c:forEach var="area" items="${geoAreas.list}">
+    <c:forEach var="area" items="${areasList}">
         ${area}&nbsp;
     </c:forEach>
 </body>
