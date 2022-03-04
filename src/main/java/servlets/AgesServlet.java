@@ -1,5 +1,6 @@
 package servlets;
 
+import entities.AgeGroupEntity;
 import util.DBUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -16,29 +17,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "GeographicAreasServlet", value = "/geographic-areas-servlet")
-public class GeographicAreasServlet extends HttpServlet {
-    List<String> areasList = new ArrayList<>();
-
+@WebServlet(name = "AgesServlet", value = "/ages-servlet")
+public class AgesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            Connection dbConnection = DBUtil.getConnection();
-            PreparedStatement preparedStatement = dbConnection.prepareStatement("select ga.name from GeographicArea ga");
+        String yearString = request.getParameter("year");
+        int year = yearString == null ? 2016 : Integer.parseInt(yearString);
+        List<AgeGroupEntity> ageGroups = DBUtil.GetAges(year);
+        request.setAttribute("ageGroups", ageGroups);
 
-            ResultSet result = preparedStatement.executeQuery();
-
-            if (result != null) {
-                while(result.next()) {
-                    areasList.add(result.getString("name"));
-                }
-            }
-            request.setAttribute("areasList", areasList);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-
-        RequestDispatcher view = request.getRequestDispatcher("/geographicAreas.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/ageGroups.jsp");
         view.forward(request, response);
     }
 

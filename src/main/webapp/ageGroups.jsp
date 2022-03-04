@@ -3,12 +3,23 @@
 
 <html>
 <head>
-    <title>Geographic Area Classification List</title>
+    <title>Age List</title>
 </head>
 <body>
-    <h2>Geographic Area Classification List</h2>
-    <c:forEach var="area" items="${areasList}">
-        ${area}&nbsp;
-    </c:forEach>
+    <h2>Age List</h2>
+    <table>
+        <tr>
+            <th>Age Group</th>
+            <th>Male Population</th>
+            <th>Female Population</th>
+        </tr>
+        <c:forEach var="ageGroup" items="${ageGroups}">
+            <tr>
+                <td>${ageGroup.getDescription()}</td>
+                <td>${ageGroup.getMale()}</td>
+                <td>${ageGroup.getFemale()}</td>
+            </tr>
+        </c:forEach>
+    </table>
 </body>
 </html>
