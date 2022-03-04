@@ -59,18 +59,22 @@ public class DBUtil {
 
         try {
             Connection dbConnection = getConnection();
-            PreparedStatement getArea = dbConnection.prepareStatement("select name, code, alternativeCode, level from GEOGRAPHICAREA where geographicAreaId = ?");
+            String sql =
+                    "SELECT name, code, level, IFNULL(SUM(H.numberReported), 0) as population FROM GEOGRAPHICAREA G\n" +
+                    "LEFT JOIN HOUSEHOLD H ON G.geographicAreaID = H.geographicArea\n" +
+                    "WHERE (H.geographicArea IS NULL OR H.censusYear = 1) AND G.geographicAreaID = ?\n" +
+                    "GROUP by G.geographicAreaID;";
+            PreparedStatement getArea = dbConnection.prepareStatement(sql);
             getArea.setInt(1, areaId);
 
             ResultSet result = getArea.executeQuery();
 
             if (result != null) {
                 result.next();
-                area.setGeographicAreaId(areaId);
                 area.setName(result.getString("name"));
                 area.setCode(result.getInt("code"));
-                area.setAlternativeCode(result.getInt("alternativeCode"));
                 area.setLevel(result.getInt("level"));
+                area.setPopulation(result.getInt("population"));
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

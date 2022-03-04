@@ -6,6 +6,9 @@
     <title>Geographic Area</title>
 </head>
 <body>
-    <h2>${area.name} Geographic Area</h2>
+    <h2>${area.getName()} Geographic Area</h2>
+    <div><b>Code:</b> ${area.getCode()}</div>
+    <div><b>Level:</b> ${area.getReadableLevel()}</div>
+    <div><b>Population:</b> ${area.getPopulation()}</div>
 </body>
 </html>
