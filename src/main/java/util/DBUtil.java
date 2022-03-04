@@ -44,8 +44,6 @@ public class DBUtil {
                     GeographicAreaEntity entity = new GeographicAreaEntity();
                     entity.setGeographicAreaId(result.getInt("geographicAreaId"));
                     entity.setName(result.getString("name"));
-//                    entity.setName(result.getString("name"));
-//                    entity.setName(result.getString("name"));
                     areasList.add(entity);
                 }
             }
@@ -54,6 +52,31 @@ public class DBUtil {
         }
 
         return areasList;
+    }
+
+    public static GeographicAreaEntity getGeographicArea(int areaId) {
+        GeographicAreaEntity area = new GeographicAreaEntity();
+
+        try {
+            Connection dbConnection = getConnection();
+            PreparedStatement getArea = dbConnection.prepareStatement("select name, code, alternativeCode, level from GEOGRAPHICAREA where geographicAreaId = ?");
+            getArea.setInt(1, areaId);
+
+            ResultSet result = getArea.executeQuery();
+
+            if (result != null) {
+                result.next();
+                area.setGeographicAreaId(areaId);
+                area.setName(result.getString("name"));
+                area.setCode(result.getInt("code"));
+                area.setAlternativeCode(result.getInt("alternativeCode"));
+                area.setLevel(result.getInt("level"));
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return area;
     }
 
     private static void printSQLException(SQLException ex) {

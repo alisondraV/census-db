@@ -19,13 +19,23 @@ import java.util.List;
 
 @WebServlet(name = "GeographicAreasServlet", value = "/geographic-areas-servlet")
 public class GeographicAreasServlet extends HttpServlet {
+    public static final String GEO_AREAS_LIST_PAGE = "/geographicAreasList.jsp";
+    public static final String GEO_AREA_DETAILS_PAGE = "/geographicAreaDetails.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String areaId = request.getParameter("id");
+        String forwardPage = GEO_AREAS_LIST_PAGE;
+
+        if (areaId == null) {
             List<GeographicAreaEntity> areasList = DBUtil.getGeographicAreas();
             request.setAttribute("areasList", areasList);
-
-        RequestDispatcher view = request.getRequestDispatcher("/geographicAreasList.jsp");
+        } else {
+            GeographicAreaEntity area = DBUtil.getGeographicArea(Integer.parseInt(areaId));
+            request.setAttribute("area", area);
+            forwardPage = GEO_AREA_DETAILS_PAGE;
+        }
+        RequestDispatcher view = request.getRequestDispatcher(forwardPage);
         view.forward(request, response);
     }
 
