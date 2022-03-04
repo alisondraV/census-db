@@ -1,5 +1,6 @@
 package servlets;
 
+import entities.GeographicAreaEntity;
 import util.DBUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -18,27 +19,13 @@ import java.util.List;
 
 @WebServlet(name = "GeographicAreasServlet", value = "/geographic-areas-servlet")
 public class GeographicAreasServlet extends HttpServlet {
-    List<String> areasList = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            Connection dbConnection = DBUtil.getConnection();
-            PreparedStatement preparedStatement = dbConnection.prepareStatement("select ga.name from GeographicArea ga");
-
-            ResultSet result = preparedStatement.executeQuery();
-
-            if (result != null) {
-                while(result.next()) {
-                    areasList.add(result.getString("name"));
-                }
-            }
+            List<GeographicAreaEntity> areasList = DBUtil.getGeographicAreas();
             request.setAttribute("areasList", areasList);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
 
-        RequestDispatcher view = request.getRequestDispatcher("/geographicAreas.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/geographicAreasList.jsp");
         view.forward(request, response);
     }
 

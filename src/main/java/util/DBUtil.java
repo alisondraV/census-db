@@ -1,9 +1,14 @@
 package util;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import entities.GeographicAreaEntity;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBUtil {
     public static Connection getConnection() throws ClassNotFoundException {
@@ -23,6 +28,32 @@ public class DBUtil {
         }
 
         return connection;
+    }
+
+    public static List<GeographicAreaEntity> getGeographicAreas() {
+        List<GeographicAreaEntity> areasList = new ArrayList<>();
+
+        try {
+            Connection dbConnection = getConnection();
+            PreparedStatement preparedStatement = dbConnection.prepareStatement("select geographicAreaId, name from GEOGRAPHICAREA");
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result != null) {
+                while (result.next()) {
+                    GeographicAreaEntity entity = new GeographicAreaEntity();
+                    entity.setGeographicAreaId(result.getInt("geographicAreaId"));
+                    entity.setName(result.getString("name"));
+//                    entity.setName(result.getString("name"));
+//                    entity.setName(result.getString("name"));
+                    areasList.add(entity);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return areasList;
     }
 
     private static void printSQLException(SQLException ex) {
