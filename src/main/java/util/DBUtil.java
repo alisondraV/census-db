@@ -30,6 +30,34 @@ public class DBUtil {
         return connection;
     }
 
+    public static void createUser(String username, String password) {
+        try {
+            Connection dbConnection = DBUtil.getConnection();
+            PreparedStatement preparedStatement = dbConnection.prepareStatement("INSERT INTO USER (username, passwordHash) VALUES (?, ?)");
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            preparedStatement.executeUpdate();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean verifyCredentials(String username, String password) {
+        try {
+            Connection dbConnection = DBUtil.getConnection();
+            PreparedStatement preparedStatement = dbConnection.prepareStatement("SELECT * FROM USER WHERE username = ? AND passwordHash = ?");
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            ResultSet result = preparedStatement.executeQuery();
+            return result.next();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static List<AgeGroupEntity> GetAges(int year) {
         List<AgeGroupEntity> ageGroups = new ArrayList<>();
 
