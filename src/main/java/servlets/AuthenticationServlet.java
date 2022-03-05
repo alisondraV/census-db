@@ -22,12 +22,6 @@ public class AuthenticationServlet extends HttpServlet {
         String forward = "";
 
         if (pageName.equals("signup")) {
-//            if (DBUtil.findByEmployeeName(request.getParameter("userName"))) {
-//                forward = EMP_SIGNUP;
-//                RequestDispatcher view = request.getRequestDispatcher(forward);
-//                view.forward(request, response);
-//                return;
-//            }
             DBUtil.createUser(
                 request.getParameter("userName"),
                 request.getParameter("password")
