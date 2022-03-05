@@ -1,6 +1,7 @@
 package util;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import entities.GeographicAreaEntity;
 import entities.AgeGroupEntity;
 
 import java.sql.Connection;
@@ -87,6 +88,59 @@ public class DBUtil {
         }
 
         return ageGroups;
+    }
+
+    public static List<GeographicAreaEntity> getGeographicAreas() {
+        List<GeographicAreaEntity> areasList = new ArrayList<>();
+
+        try {
+            Connection dbConnection = getConnection();
+            PreparedStatement preparedStatement = dbConnection.prepareStatement("select geographicAreaId, name from GEOGRAPHICAREA");
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result != null) {
+                while (result.next()) {
+                    GeographicAreaEntity entity = new GeographicAreaEntity();
+                    entity.setGeographicAreaId(result.getInt("geographicAreaId"));
+                    entity.setName(result.getString("name"));
+                    areasList.add(entity);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return areasList;
+    }
+
+    public static GeographicAreaEntity getGeographicArea(int areaId) {
+        GeographicAreaEntity area = new GeographicAreaEntity();
+
+        try {
+            Connection dbConnection = getConnection();
+            String sql =
+                    "SELECT name, code, level, IFNULL(SUM(H.numberReported), 0) as population FROM GEOGRAPHICAREA G\n" +
+                            "LEFT JOIN HOUSEHOLD H ON G.geographicAreaID = H.geographicArea\n" +
+                            "WHERE (H.geographicArea IS NULL OR H.censusYear = 1) AND G.geographicAreaID = ?\n" +
+                            "GROUP by G.geographicAreaID;";
+            PreparedStatement getArea = dbConnection.prepareStatement(sql);
+            getArea.setInt(1, areaId);
+
+            ResultSet result = getArea.executeQuery();
+
+            if (result != null) {
+                result.next();
+                area.setName(result.getString("name"));
+                area.setCode(result.getInt("code"));
+                area.setLevel(result.getInt("level"));
+                area.setPopulation(result.getInt("population"));
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return area;
     }
 
     private static void printSQLException(SQLException ex) {

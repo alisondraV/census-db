@@ -8,7 +8,11 @@
 <body>
     <h2>Geographic Area Classification List</h2>
     <c:forEach var="area" items="${areasList}">
-        ${area}&nbsp;
+        <div>
+            <a href="${pageContext.request.contextPath}/geographic-areas-servlet?id=${area.getGeographicAreaId()}">
+                ${area.getName()}
+            </a>
+        </div>
     </c:forEach>
 </body>
 </html>

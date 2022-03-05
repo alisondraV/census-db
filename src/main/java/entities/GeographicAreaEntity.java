@@ -6,6 +6,7 @@ public class GeographicAreaEntity {
     private int level;
     private String name;
     private int alternativeCode;
+    private int population;
 
     public int getGeographicAreaId() {
         return geographicAreaId;
@@ -45,5 +46,28 @@ public class GeographicAreaEntity {
 
     public void setAlternativeCode(int alternativeCode) {
         this.alternativeCode = alternativeCode;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    public String getReadableLevel() {
+        switch (level) {
+            case 0:
+                return "Country";
+            case 1:
+                return "Province/Territory";
+            case 2:
+                return "CMA/CA";
+            case 3:
+                return "CMA/CA province";
+            default:
+                return "Unknown";
+        }
     }
 }

@@ -1,5 +1,6 @@
 package servlets;
 
+import entities.GeographicAreaEntity;
 import util.DBUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -18,27 +19,23 @@ import java.util.List;
 
 @WebServlet(name = "GeographicAreasServlet", value = "/geographic-areas-servlet")
 public class GeographicAreasServlet extends HttpServlet {
-    List<String> areasList = new ArrayList<>();
+    public static final String GEO_AREAS_LIST_PAGE = "/geographicAreasList.jsp";
+    public static final String GEO_AREA_DETAILS_PAGE = "/geographicAreaDetails.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            Connection dbConnection = DBUtil.getConnection();
-            PreparedStatement preparedStatement = dbConnection.prepareStatement("select ga.name from GeographicArea ga");
+        String areaId = request.getParameter("id");
+        String forwardPage = GEO_AREAS_LIST_PAGE;
 
-            ResultSet result = preparedStatement.executeQuery();
-
-            if (result != null) {
-                while(result.next()) {
-                    areasList.add(result.getString("name"));
-                }
-            }
+        if (areaId == null) {
+            List<GeographicAreaEntity> areasList = DBUtil.getGeographicAreas();
             request.setAttribute("areasList", areasList);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } else {
+            GeographicAreaEntity area = DBUtil.getGeographicArea(Integer.parseInt(areaId));
+            request.setAttribute("area", area);
+            forwardPage = GEO_AREA_DETAILS_PAGE;
         }
-
-        RequestDispatcher view = request.getRequestDispatcher("/geographicAreas.jsp");
+        RequestDispatcher view = request.getRequestDispatcher(forwardPage);
         view.forward(request, response);
     }
 
