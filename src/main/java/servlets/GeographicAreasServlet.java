@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "GeographicAreasServlet", value = "/geographic-areas-servlet")
 public class GeographicAreasServlet extends HttpServlet {
@@ -29,7 +31,26 @@ public class GeographicAreasServlet extends HttpServlet {
 
         if (areaId == null) {
             List<GeographicAreaEntity> areasList = DBUtil.getGeographicAreas();
-            request.setAttribute("areasList", areasList);
+            List<GeographicAreaEntity> countries = areasList
+                    .stream()
+                    .filter(c -> c.getLevel() == 0)
+                    .collect(Collectors.toList());
+            List<GeographicAreaEntity> provinces = areasList
+                    .stream()
+                    .filter(c -> c.getLevel() == 1)
+                    .collect(Collectors.toList());
+            List<GeographicAreaEntity> CMAs = areasList
+                    .stream()
+                    .filter(c -> c.getLevel() == 2)
+                    .collect(Collectors.toList());
+            List<GeographicAreaEntity> CMARegions = areasList
+                    .stream()
+                    .filter(c -> c.getLevel() == 3)
+                    .collect(Collectors.toList());
+            request.setAttribute("countries", countries);
+            request.setAttribute("provinces", provinces);
+            request.setAttribute("CMAs", CMAs);
+            request.setAttribute("CMARegions", CMARegions);
         } else {
             GeographicAreaEntity area = DBUtil.getGeographicArea(Integer.parseInt(areaId));
             request.setAttribute("area", area);
