@@ -7,7 +7,7 @@
     <link rel="icon" href="favicon.ico"/>
 </head>
 <body class="bg-fixed w-full bg-gradient-to-b from-blue-100 to-yellow-100 p-10">
-    <h2 class="text-xl font-semibold mb-2">Geographic Area Classification List</h2>
+    <h2 class="text-2xl text-center font-semibold mb-2">Geographic Area Classification List</h2>
 
     <h3 class="text-lg font-medium mb-2">Countries</h3>
     <ul class="grid grid-cols-5 gap-2 mb-6">
