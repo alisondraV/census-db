@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// Handles requests related to authentication
 @WebServlet(name = "AuthenticationServlet", value = "/AuthenticationServlet")
 public class AuthenticationServlet extends HttpServlet {
     private final String EMP_LOGIN = "/login";

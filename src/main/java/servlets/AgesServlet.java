@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+// Handles requests to retrieve age group information
 @WebServlet(name = "AgesServlet", value = "/ages-servlet")
 public class AgesServlet extends HttpServlet {
     @Override
