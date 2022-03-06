@@ -11,7 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Provides utility methods to transact with the DB
 public class DBUtil {
+    // connects to the DB and creates a connection
     public static Connection getConnection() throws ClassNotFoundException {
         MysqlDataSource mySqlDS = new MysqlDataSource();
 
@@ -31,6 +33,11 @@ public class DBUtil {
         return connection;
     }
 
+    /**
+     * Creates a user provided a username and a password
+     * @param username a unique username
+     * @param password a secure password
+     */
     public static void createUser(String username, String password) {
         try {
             Connection dbConnection = DBUtil.getConnection();
@@ -44,6 +51,12 @@ public class DBUtil {
         }
     }
 
+    /**
+     * Tries to retrieve a user by username and password
+     * @param username a unique username
+     * @param password a matching password
+     * @return whether a user with the given username and password exists
+     */
     public static boolean verifyCredentials(String username, String password) {
         try {
             Connection dbConnection = DBUtil.getConnection();
@@ -59,7 +72,12 @@ public class DBUtil {
         return false;
     }
 
-    public static List<AgeGroupEntity> GetAges(int year) {
+    /**
+     * Gets a list of age data for a specific year
+     * @param year the census year to retrieve the data for
+     * @return the list populations grouped by age groups
+     */
+    public static List<AgeGroupEntity> getAges(int year) {
         List<AgeGroupEntity> ageGroups = new ArrayList<>();
 
         try {
@@ -90,6 +108,10 @@ public class DBUtil {
         return ageGroups;
     }
 
+    /**
+     * Retrieves a list of geographic areas
+     * @return a list of all geographic areas
+     */
     public static List<GeographicAreaEntity> getGeographicAreas() {
         List<GeographicAreaEntity> areasList = new ArrayList<>();
 
@@ -116,6 +138,11 @@ public class DBUtil {
         return areasList;
     }
 
+    /**
+     * Retrieves data for a specific geo area by id
+     * @param areaId Geographic Area ID
+     * @return a geographic area data (including population)
+     */
     public static GeographicAreaEntity getGeographicArea(int areaId) {
         GeographicAreaEntity area = new GeographicAreaEntity();
 
@@ -145,6 +172,10 @@ public class DBUtil {
         return area;
     }
 
+    /**
+     * Displays a human-readable exception message
+     * @param ex the exception to display
+     */
     private static void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {
