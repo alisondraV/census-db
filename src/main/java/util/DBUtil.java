@@ -95,7 +95,8 @@ public class DBUtil {
 
         try {
             Connection dbConnection = getConnection();
-            PreparedStatement preparedStatement = dbConnection.prepareStatement("select geographicAreaId, name from GEOGRAPHICAREA");
+            String sql = "SELECT geographicAreaId, name, level FROM GEOGRAPHICAREA";
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(sql);
 
             ResultSet result = preparedStatement.executeQuery();
 
@@ -104,6 +105,7 @@ public class DBUtil {
                     GeographicAreaEntity entity = new GeographicAreaEntity();
                     entity.setGeographicAreaId(result.getInt("geographicAreaId"));
                     entity.setName(result.getString("name"));
+                    entity.setLevel(result.getInt("level"));
                     areasList.add(entity);
                 }
             }

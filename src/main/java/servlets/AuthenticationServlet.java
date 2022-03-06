@@ -12,7 +12,6 @@ import java.util.Date;
 
 @WebServlet(name = "AuthenticationServlet", value = "/AuthenticationServlet")
 public class AuthenticationServlet extends HttpServlet {
-    private final String EMP_SIGNUP = "/signup";
     private final String EMP_LOGIN = "/login";
     private final String EMP_SUCCESS = "/home";
 
