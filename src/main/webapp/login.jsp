@@ -6,8 +6,8 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="icon" href="favicon.ico"/>
     </head>
-    <body class="h-screen bg-gradient-to-b from-blue-100 to-yellow-100">
-        <div class="h-full flex items-center justify-center">
+    <body class="bg-fixed bg-gradient-to-b from-blue-100 to-yellow-100">
+        <div class="h-screen flex items-center justify-center">
             <form action="AuthenticationServlet" method="post" class="w-64">
                 <label for="userName" class="text-xl font-bold py-2">
                     UserName
