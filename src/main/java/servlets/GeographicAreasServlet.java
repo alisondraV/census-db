@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+// Handles requests to retrieve Geographic Area information (list and individual)
 @WebServlet(name = "GeographicAreasServlet", value = "/geographic-areas-servlet")
 public class GeographicAreasServlet extends HttpServlet {
     public static final String GEO_AREAS_LIST_PAGE = "/geographicAreasList.jsp";
